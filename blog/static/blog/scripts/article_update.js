@@ -12,7 +12,7 @@
                     '<a href="/article/'+this.pk+'">'+this.fields.article_title+'</a>'+
                     '</h4>' +
                     '<p class="text-muted">' +
-                    '<small>'+this.fields.article_date+'' +
+                    '<small>'+this.fields.article_date_add+'' +
                     '</small></p>' +
                     '<div class="article_text">' +
                     '<p>' +this.fields.article_text +'</p>' +

@@ -9,6 +9,16 @@ import datetime
 from django.utils.html import format_html
 
 
+class Category(models.Model):
+    category_name = models.CharField(verbose_name='Категория', max_length=50)
+
+    class Meta:
+        verbose_name= 'Категория'
+        verbose_name_plural = 'Категориии'
+
+    def __str__(self):
+        return str(self.category_name)
+
 class Article(models.Model):
     article_title = models.CharField(max_length=200, verbose_name='Заголовок')
     article_text = RichTextUploadingField( verbose_name='Текст') #models.TextField(verbose_name='Текст')
@@ -19,6 +29,7 @@ class Article(models.Model):
     article_dislikes = models.IntegerField(default=0, verbose_name='Не понравилось')
     article_image = models.ImageField(null=True, blank=True, upload_to="image/", verbose_name='Картинка')
     is_publish = models.BooleanField(default=False, verbose_name='Опубликовать')
+    is_category = models.ManyToManyField(Category, verbose_name='Категория')
 
     class Meta():
         verbose_name= 'Статья'
@@ -36,14 +47,7 @@ class Article(models.Model):
     bit.short_description = 'Изображение'
     bit.allow_tags = True
 
-    def field_val(self):
-        if self.is_publish == 1:
-            return True
-        else:
-            return False
-
     def publish(self):
-        field_val = self.is_publish
 
         if self.is_publish == 1:
             field_val = True
@@ -53,3 +57,4 @@ class Article(models.Model):
         return format_html('<img src="{}" alt="{}" />', icon_url, field_val)
     publish.short_description = 'Опубликовано'
     publish.allow_tags = True
+

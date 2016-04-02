@@ -7,7 +7,7 @@
 {% block content %}
     <div class="row">
     <h2>{{ article.article_title }}</h2>
-    <p class="text-muted"><small>{{ article.article_date|date }}</small></p>
+    <p class="text-muted"><small>{{ article.article_date_add|date }}</small></p>
 
     {% if article.article_image %}
         {% load static %}
@@ -75,11 +75,13 @@
             <form class="form-group" action="{% url 'add_comment' article.id %}" method="POST">
                 {% csrf_token %}
 
-                <div class="col-xs-12 col-md-2">
-                {{ form }}
-
-                    <button type="submit" class="btn btn-primary">Добавить коментарии</button>
+                <div class="col-xs-12 col-md-12">
+                {{ form.comment_text }}
                 </div>
+                <div class="col-xs-12 col-xs-offset-2 col-md-12 col-md-offset-4">
+                    <input type="submit" class="btn btn-primary" style="margin-top: 10px" value="Добавить комментарий">
+                </div>
+
             </form>
             {% endif %}
         </div>

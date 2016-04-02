@@ -5,6 +5,11 @@ from comments.models import Comment
 
 
 class CommentForm(ModelForm):
+    comment_text = forms.CharField(
+        label='',
+        max_length=300,
+        widget = forms.Textarea({'class': 'form-control','rows':'5', 'placeholder': 'Комментврий...'})
+    )
 
     class Meta:
         model = Comment

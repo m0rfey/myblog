@@ -93,6 +93,5 @@ def about(request):
 def ajax(request, article_id):
     response = HttpResponse()
     response['Content-Typ'] = "text/javascript"
-    response.write(serializers.serialize("json",
-                                         Article.objects.filter(pk__gt = article_id)))
+    response.write(serializers.serialize("json", Article.objects.filter(pk__gt = article_id, is_publish=1)))
     return response
