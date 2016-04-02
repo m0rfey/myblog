@@ -11,7 +11,7 @@ from django.contrib import auth
 
 
 def home(request):
-    articles =Article.objects.all()
+    articles =Article.objects.filter(is_publish=1)
     args= {}
     args.update(csrf(request))
     args['articles'] = articles
