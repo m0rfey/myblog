@@ -1,9 +1,12 @@
 #-*- coding: utf-8 -*-
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.admin.templatetags.admin_static import static
 from django.contrib.auth.models import User
 from django.db import models
 import datetime
+
+from django.utils.html import format_html
 
 
 class Article(models.Model):
@@ -33,12 +36,20 @@ class Article(models.Model):
     bit.short_description = 'Изображение'
     bit.allow_tags = True
 
-    def publish(self):
+    def field_val(self):
         if self.is_publish == 1:
-            pub = 1
-            return 'Да'
+            return True
         else:
-            pub = 0
-            return 'Нет'
+            return False
+
+    def publish(self):
+        field_val = self.is_publish
+
+        if self.is_publish == 1:
+            field_val = True
+        else:
+            field_val = False
+        icon_url = static('admin/img/icon-%s.svg' %{True: 'yes', False: 'no', None: 'unknown'}[field_val])
+        return format_html('<img src="{}" alt="{}" />', icon_url, field_val)
     publish.short_description = 'Опубликовано'
     publish.allow_tags = True
