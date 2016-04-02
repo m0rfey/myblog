@@ -15,6 +15,7 @@ class Article(models.Model):
     article_likes = models.IntegerField(default=0, verbose_name='Понравилось')
     article_dislikes = models.IntegerField(default=0, verbose_name='Не понравилось')
     article_image = models.ImageField(null=True, blank=True, upload_to="image/", verbose_name='Картинка')
+    is_publish = models.IntegerField(default=0, verbose_name='Опубликовать')
 
     class Meta():
         verbose_name= 'Статья'
@@ -32,4 +33,10 @@ class Article(models.Model):
     bit.short_description = 'Изображение'
     bit.allow_tags = True
 
-
+    def publish(self):
+        if self.is_publish == 1:
+            return 'Да'
+        else:
+            return 'Нет'
+    publish.short_description = 'Опубликовано'
+    publish.allow_tags = True
