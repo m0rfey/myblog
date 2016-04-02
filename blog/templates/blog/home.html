@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+{% block script %}
+    {% load staticfiles %}
+<script type="text/javascript" src="{% static "blog/scripts/article_update.js" %}"></script>
+{% endblock %}
+
+
+{% block title %}Главная{% endblock %}
+
+
+{% block content %}
+
+{% if articles %}
+
+    <div class="row" id="home">
+        {% for article in articles %}
+
+            <div class="col-xs-12 col-md-6 home {% cycle even,odd %}" id="{{ article.id }}" style="height: 288px">
+            <h4 id="title"><a href="{% url 'article' article.id %}">{{ article.article_title }}</a></h4>
+            <p class="text-muted"><small>{{ article.article_date|date }}</small></p>
+            <div class="article_text">
+               <p class="text-p">
+                   {% autoescape off %}
+                        {{ article.article_text|truncatewords:20}}
+                    {% endautoescape %}
+                   <a href="{% url 'article' article.id %}"> > </a></p>
+            </div>
+    <hr>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+{% endblock %}

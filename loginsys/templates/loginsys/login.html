@@ -1,0 +1,45 @@
+{% extends "blog/base.html" %}
+
+{% block login %}
+
+<h2>{{ title }}</h2>
+<form action="/login/" class="form-horizontal" method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <div class="form-group">
+            <div class="col-xs-12 col-md-10">
+                {% if login_error %}
+                    <div class="alert alert-danger" role="alert">
+                    {{ login_error }}
+                    </div>
+              {% endif %}
+            </div>
+            <div class="col-xs-12 col-md-10">
+                <input type="text" class="form-control" name="username" id="username" placeholder="Имя пользователя">
+            </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12 col-md-10">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Пароль">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Checkbox
+              </label>
+            </div>
+
+              <input type="submit" class="btn btn-primary" value="Войти"><p> или <a href="{% url 'register'  %}">Зарегистироваться</a> </p>
+          <div class="text-info"></div>
+          </div>
+        </div>
+    </fieldset>
+</form>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    {% load staticfiles %}
+<script src="{% static 'blog/scripts/jquery.validate.min.js' %}"></script>
+
+{% endblock %}

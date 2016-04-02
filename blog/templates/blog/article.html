@@ -1,0 +1,105 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+{{ article.article_title }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+    <h2>{{ article.article_title }}</h2>
+    <p class="text-muted"><small>{{ article.article_date|date }}</small></p>
+
+    {% if article.article_image %}
+        {% load static %}
+        <img src="{% static article.article_image.url %}" alt="{{ article.article_title }}"/>
+    {% endif %}
+        <div class="article_text">
+        {% autoescape off %}
+            {{ article.article_text }}
+        {% endautoescape %}
+        </div>
+    </div>
+    <div class="row">
+    {% if username %}
+
+        <div class="col-xs-8 col-md-4">
+            <div class="add-like">
+                <div class="like">
+                   <a href="{% url 'add_like' article.id %}">  <div class="article-up"></div> </a>
+                </div>
+                <div class="result-like" >
+                    {{ article.article_likes }}
+                </div>
+            </div>
+
+            <div class="add-dislike">
+                <div class="like">
+                    <a href="{% url 'add_dislike' article.id %}"><div class="article-down"></div></a>
+                </div>
+                <div class="result-dislike">
+                    {{ article.article_dislikes }}
+                </div>
+            </div>
+        </div>
+
+
+    {% else %}
+       <div class="col-xs-8 col-md-4">
+            <div class="add-like">
+                <div class="like">
+                    <div class="article-up"></div>
+                </div>
+                <div class="result-like">
+                    {{ article.article_likes }}
+                </div>
+            </div>
+            <div class="add-dislike">
+                <div class="like">
+                    <div class="article-down"></div>
+                </div>
+                <div class="result-dislike">
+                    {{ article.article_dislikes }}
+                </div>
+            </div>
+
+        </div>
+    {% endif %}
+
+     </div>
+    <hr>
+
+     <h2 >Комментарии</h2>
+
+        <div class="row">
+            {% if username %}
+            <form class="form-group" action="{% url 'add_comment' article.id %}" method="POST">
+                {% csrf_token %}
+
+                <div class="col-xs-12 col-md-2">
+                {{ form }}
+
+                    <button type="submit" class="btn btn-primary">Добавить коментарии</button>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+
+    {% for comment in comments %}
+        <div class="bor">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <h6>Автор: {{ comment.comment_user }} || {{ comment.comment_date }}</h6>
+            </div>
+        </div>
+        <pre_comment>{{ comment.comment_text }}</pre_comment>
+            {% if username %}
+                <div class="col-md-12"><a href="{% url 'add_likecomm' comment.id %}">Поддержать: </a> {{ comment.comment_like }}</div>
+            {% else %}
+                <div class="col-md-12">Поддержало: {{ comment.comment_like }}</div>
+            {% endif %}
+
+        <hr>
+        </div>
+    {% endfor %}
+
+{% endblock %}

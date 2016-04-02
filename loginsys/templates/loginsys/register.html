@@ -1,0 +1,55 @@
+{% extends 'blog/base.html' %}
+
+{% block login %}
+    <form action="{% url 'register' %}" class="form-horizontal" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="col-xs-12 col-md-10">
+            <table style="font-size: 16px; margin: 10px;">
+                <tr>
+                    <td class="stl">{{ form.username.label }}</td>
+                    <td class="stl">{{ form.username }}</td>
+                    <td class="stl">{{ form.username.errors }}</td>
+                </tr>
+                <tr>
+                    <td class="stl">{{ form.first_name.label }}</td>
+                    <td class="stl">{{ form.first_name }}</td>
+                    <td class="stl">{{ form.first_name.errors }}</td>
+                </tr>
+                <tr>
+                    <td class="stl">{{ form.last_name.label }}</td>
+                    <td class="stl">{{ form.last_name }}</td>
+                    <td class="stl">{{ form.last_name.errors }}</td>
+                </tr>
+                <tr>
+                    <td class="stl">{{ form.phone.label }}</td>
+                    <td class="stl">{{ form.phone }}</td>
+                    <td class="stl">{{ form.phone.errors }}</td>
+                </tr>
+                <tr>
+                     <td class="stl">{{ form.email.label }}</td>
+                     <td class="stl">{{ form.email }}</td>
+                     <td class="stl">{{ form.email.errors }}</td>
+                </tr>
+                <tr>
+                    <td class="stl">{{ form.password1.label }}</td>
+                    <td class="stl">{{ form.password1 }}</td>
+                    <td class="stl">{{ form.password1.errors }}</td>
+                </tr>
+                <tr>
+                    <td class="stl">{{ form.password2.label }}</td>
+                    <td class="stl">{{ form.password2 }}</td>
+                    <td class="stl">{{ form.password2.errors }}</td>
+                </tr>
+
+
+                <tr>
+                    <p>* -Обязательное поле. Не более 30 символов. Только буквы, цифры и символы @/./+/-/_.</p>
+                     {{ form.non_field_errors }}
+                </tr>
+            </table>
+                <input type="submit" class="btn btn-primary" value="Зарегистрироваться">
+        </div>
+    </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,24 @@
+﻿{% extends "blog/layout.html" %}
+
+{% block articl %}
+    <h1>{{ article.article_title }}</a></h1>
+    <h3>{{ article.article_date }}</h3>
+    <p>{{ article.article_text }}</p>
+    <p>{{ article.article_likes }}</p>
+<hr />
+
+<p>Comments</p>
+{% for comment in comments %}
+	<p>Avtor</p>
+    <p>{{ comment.comments_text }}</p>
+<div class="row">
+		<div class="col-md-6">
+		<p>Like: {{ comment.comments_likes }}</p>
+		</div>
+		<div class="col-md-6">
+		<p>Dislike: {{ comment.comments_dislikes }}</p>
+		</div>			
+</div>
+<hr>
+{% endfor %}
+{% endblock %}
