@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, InvalidPage
 
 def home(request, p_number=1):
     articles =Article.objects.filter(is_publish=1)
-    current_page = Paginator(articles, 2)
+    current_page = Paginator(articles, 10)
     args= {}
     args.update(csrf(request))
     args['articles'] = current_page.page(p_number)
