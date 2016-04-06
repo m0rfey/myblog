@@ -1,4 +1,12 @@
 .idea/
+blog/__pycache__/
+blog/migrations/__pycache__/
+comments/__pycache__/
+comments/migrations/__pycache__/
+loginsys/__pycache__/
+loginsys/migrations/__pycache__/
+myeenv/
+
 
 db_.sqlite3
 mission.txt

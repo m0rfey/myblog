@@ -10,25 +10,56 @@
 
 {% block content %}
 
-{% if articles %}
+{% if articles%}
 
     <div class="row" id="home">
+
         {% for article in articles %}
 
             <div class="col-xs-12 col-md-6 home {% cycle even,odd %}" id="{{ article.id }}" style="height: 288px">
             <h4 id="title"><a href="{% url 'article' article.id %}">{{ article.article_title }}</a></h4>
-            <p class="text-muted"><small>{{ article.article_date_add|date }}</small></p>
+            <p class="text-muted"><small>{{ article.article_date_add|date }} || {{ article.is_category.get }}</small></p>
             <div class="article_text">
                <p class="text-p">
+
                    {% autoescape off %}
+
                         {{ article.article_text|truncatewords:20}}
+
                     {% endautoescape %}
-                   <a href="{% url 'article' article.id %}"> > </a></p>
+
+                   <a href="{% url 'article' article.id %}">&raquo; </a></p>
             </div>
     <hr>
             </div>
         {% endfor %}
     {% endif %}
     </div>
+<div class="row">
+<div class="col-xs-12 col-md-12 col-md-offset-5" >
+    <ul class="pagination " style="background-color: #333333; border-radius: 5px;">
+        {% if articles.has_previous %}
+        <li class="arrowr"><a href="{% url 'paginators' articles.previous_page_number%}">&laquo;</a></li>
+        {% else %}
+            <li class="arrow"><a href="#"></a></li>
+        {% endif %}
+
+        {% for page in articles.paginator.page_range %}
+            {% if page == articles.number %}
+                <li class="active"><a href="{% url 'paginators' page %}">{{ page }}</a></li>
+                {% else %}
+                <li><a href="{% url 'paginators' page %}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if articles.has_next %}
+            <li class="arrow"><a href="{% url 'paginators' articles.next_page_number %}">&raquo;</a></li>
+            {% else %}
+            <li class="arrow"><a href="#">&raquo;</a></li>
+        {% endif %}
+
+    </ul>
+</div>
+</div>
 
 {% endblock %}

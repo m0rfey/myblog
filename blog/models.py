@@ -19,6 +19,9 @@ class Category(models.Model):
     def __str__(self):
         return str(self.category_name)
 
+    def get_article(self):
+        Article.objects.filter(is_category=self)
+
 class Article(models.Model):
     article_title = models.CharField(max_length=200, verbose_name='Заголовок')
     article_text = RichTextUploadingField( verbose_name='Текст') #models.TextField(verbose_name='Текст')
@@ -57,4 +60,9 @@ class Article(models.Model):
         return format_html('<img src="{}" alt="{}" />', icon_url, field_val)
     publish.short_description = 'Опубликовано'
     publish.allow_tags = True
+
+    def category(self):
+        return self.is_category.get()
+    category.short_description = 'Категория'
+    category.allow_tags = True
 

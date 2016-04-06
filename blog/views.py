@@ -5,16 +5,16 @@ from django.http import Http404, HttpResponse
 from django.template.context_processors import csrf
 from comments.forms import CommentForm
 from comments.models import Comment
-from blog.models import Article
+from blog.models import Article, Category
 from django.contrib import auth
+from django.core.paginator import Paginator, InvalidPage
 
-
-
-def home(request):
+def home(request, p_number=1):
     articles =Article.objects.filter(is_publish=1)
+    current_page = Paginator(articles, 2)
     args= {}
     args.update(csrf(request))
-    args['articles'] = articles
+    args['articles'] = current_page.page(p_number)
     args['username'] = auth.get_user(request).username
     return render_to_response('blog/home.html', args)
 
@@ -83,7 +83,7 @@ def add_comment(request, article_id):
             form.save()
             request.session.set_expiry(600)
             request.session['pause'] = True
-    return  redirect(return_path)#redirect('addcomment/%s/' % article_id)
+    return  redirect(return_path)
 
 
 

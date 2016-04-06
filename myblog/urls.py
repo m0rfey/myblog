@@ -26,6 +26,7 @@ from myblog import settings
 
 urlpatterns =[
     url(r'^$', blog.views.home, name='home'),
+    url(r'^page/(\d+)/$', blog.views.home, name='paginators'),
     url(r'^article-after/(?P<article_id>\d+)/$', blog.views.ajax, name='home_ajax'),
     url(r'^about/$', blog.views.about, name='about'),
     url(r'^article/(?P<article_id>\d+)/$', blog.views.show_article, name='article'),

@@ -12,13 +12,16 @@ class ArticleInLine(admin.StackedInline):
     extra = 2
 '''
 class CategoryAdmin(admin.ModelAdmin):
+    #model = Category
+
     fields=['category_name']
 
 class ArticleAdmin(admin.ModelAdmin):
     fields = ['article_user', 'article_title','is_category', 'is_publish', 'article_text', 'article_date_add', 'article_image']
-    list_display = ['article_title', 'article_date_add','article_date_update', 'article_user', 'publish']#, 'bit']
+    list_display = ['article_title', 'article_date_add','article_date_update', 'article_user', 'publish', 'category']#, 'bit']
     #inlines = [ArticleInLine]
-    list_filter = ['article_date_add', 'article_user','is_publish']
+    list_filter = ['article_date_add', 'article_user','is_publish', 'is_category']
+    filter_horizontal = ['is_category']
 
 
 
