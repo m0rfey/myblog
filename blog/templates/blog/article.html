@@ -102,6 +102,33 @@
 
         <hr>
         </div>
+
     {% endfor %}
+        <div class="col-xs-12 col-md-12">
+            <ul class="pagination" style="background-color: #333333; border-radius: 5px;">
+                {% if comments.has_previous %}
+                    <li class="arrow"><a href="?page={{comments.previous_page_number}}">&laquo;</a></li>
+                {% else %}
+                    <li class="arrow" ><a href="#">&laquo;</a></li>
+                {% endif %}
+
+                {% for page in comments.paginator.page_range %}
+                    {% if page == comments.number %}
+                        <li class="active"><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% else %}
+                        <li><a href="?page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if comments.has_next %}
+                    <li class="arrow"><a href="?page={{ comments.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="arrow"><a href="#">&raquo;</a></li>
+
+                {% endif %}
+
+            </ul>
+        </div>
+
 
 {% endblock %}

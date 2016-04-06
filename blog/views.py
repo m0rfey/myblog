@@ -7,7 +7,8 @@ from comments.forms import CommentForm
 from comments.models import Comment
 from blog.models import Article, Category
 from django.contrib import auth
-from django.core.paginator import Paginator, InvalidPage
+from django.core.paginator import Paginator, InvalidPage, PageNotAnInteger, EmptyPage
+
 
 def home(request, p_number=1):
     articles =Article.objects.filter(is_publish=1)
@@ -28,14 +29,29 @@ def home(request, p_number=1):
 
 def show_article(request, article_id):
     comment_form = CommentForm
+    comments = Comment.objects.filter(comment_article_id=article_id)
+    current_page_comm = Paginator(comments, 5)
+    page = request.GET.get('page')
+    try:
+        comments = current_page_comm.page(page)
+    except PageNotAnInteger:
+        comments = current_page_comm.page(1)
+    except EmptyPage:
+        comments  = current_page_comm.page(current_page_comm.num_pages)
     args ={}
     args.update(csrf(request))
     args['article'] = Article.objects.get(id=article_id)
-    args['comments'] = Comment.objects.filter(comment_article_id=article_id)
+    args['comments'] = comments
     args['form'] = comment_form
     args['username'] = auth.get_user(request).username
     return render_to_response('blog/article.html', args)
 
+def pag_comm(request, comm_num = 1):
+    comments = Comment.objects.all()
+    current_comm = Paginator(comments, 2)
+    args = {}
+    args['comments'] = current_comm.page(comm_num)
+    return render_to_response('blog/article.html', args)
 
 def add_like(request, article_id):
     try:
@@ -84,8 +100,6 @@ def add_comment(request, article_id):
             request.session.set_expiry(600)
             request.session['pause'] = True
     return  redirect(return_path)
-
-
 
 def about(request):
     return render(request, 'blog/about.html')

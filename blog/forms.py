@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from ckeditor.widgets import CKEditorWidget
 from django.forms import ModelForm
 from comments.models import Comment
 
@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class CommentForm(ModelForm):
+    #comment_text = forms.CharField(widget=CKEditorWidget())
     class Meta:
         model = Comment
         fields = ['comment_text']
