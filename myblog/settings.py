@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'comments',
     'loginsys',
     'ckeditor',
+    'menu',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -63,16 +64,20 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [#os.path.join(BASE_DIR, 'blog/templates')
             os.path.join(BASE_DIR, 'blog/templates'),
-            os.path.join(BASE_DIR, 'loginsys/templates')
+            os.path.join(BASE_DIR, 'loginsys/templates'),
+            os.path.join(BASE_DIR, 'menu/templates'),
              ]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
+
             ],
         },
     },

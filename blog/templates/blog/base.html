@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -32,7 +32,7 @@
 
   <body>
   {% block script %}
-  
+
   {% endblock %}
 
     <nav class="navbar navbar navbar-default navbar-fixed-top">
@@ -47,11 +47,14 @@
           <a class="navbar-brand" href="{% url 'home' %}">Blog</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
+
+
+        <ul class="nav navbar-nav">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
             <li><a href="#contact">Contact</a></li>
-          </ul>
+            </ul>
+
             <ul class="nav navbar-nav navbar-right">
                 {% if username %}
                     <li><a href="/logout/">Выйти ({{ username }})</a></li>
@@ -64,6 +67,7 @@
     </nav>
 
     <div class="container main-contents">
+     {% block topmenu %}{% endblock %}
         <div class="col-xs-12 col-md-9 ">
             {% block login %} {% endblock %}
             {% block content %}{% endblock %}
