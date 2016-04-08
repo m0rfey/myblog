@@ -1,6 +1,9 @@
 {% extends 'blog/base.html' %}
 {% block title %}Главная{% endblock %}
 
+
+
+
 {% block content %}
 
 {% if articles%}
@@ -30,29 +33,34 @@
     </div>
 <div class="row">
 <div class="col-xs-12 col-md-12 col-md-offset-5" >
+    {% if articles.paginator.num_pages > 1%}
+
+
     <ul class="pagination " style="background-color: #333333; border-radius: 5px;">
         {% if articles.has_previous %}
-        <li class="arrowr"><a href="{% url 'paginators' articles.previous_page_number%}">&laquo;</a></li>
+        <li class="arrow"><a href="/?page={{ articles.previous_page_number }}">&laquo;</a></li>
         {% else %}
             <li class="arrow"><a href="#">&laquo;</a></li>
         {% endif %}
 
         {% for page in articles.paginator.page_range %}
             {% if page == articles.number %}
-                <li class="active"><a href="{% url 'paginators' page %}">{{ page }}</a></li>
+                <li class="active"><a href="/?page={{ page }}">{{ page }}</a></li>
                 {% else %}
-                <li><a href="{% url 'paginators' page %}">{{ page }}</a></li>
+                <li><a href="/?page={{ page }}">{{ page }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if articles.has_next %}
-            <li class="arrow"><a href="{% url 'paginators' articles.next_page_number %}">&raquo;</a></li>
+            <li class="arrow"><a href="/?page={{ articles.next_page_number }}">&raquo;</a></li>
             {% else %}
             <li class="arrow"><a href="#">&raquo;</a></li>
         {% endif %}
 
     </ul>
+{% endif %}
 </div>
+
 </div>
 
 {% endblock %}

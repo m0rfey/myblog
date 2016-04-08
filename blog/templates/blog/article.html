@@ -104,7 +104,10 @@
         </div>
 
     {% endfor %}
+
+
         <div class="col-xs-12 col-md-12">
+        {% if comments.paginator.num_pages > 1 %}
             <ul class="pagination" style="background-color: #333333; border-radius: 5px;">
                 {% if comments.has_previous %}
                     <li class="arrow"><a href="?page={{comments.previous_page_number}}">&laquo;</a></li>
@@ -128,7 +131,9 @@
                 {% endif %}
 
             </ul>
+            {% endif %}
         </div>
+
 
 
 {% endblock %}

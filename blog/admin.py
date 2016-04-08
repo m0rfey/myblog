@@ -20,6 +20,7 @@ class ArticleAdmin(admin.ModelAdmin):
     fields = ['article_user', 'article_title','is_category', 'is_publish', 'article_text', 'article_date_add', 'article_image']
     list_display = ['article_title', 'article_date_add','article_date_update', 'article_user', 'publish', 'category']#, 'bit']
     #inlines = [ArticleInLine]
+    is_publish = forms.CharField(label='Опудликовано')
     list_filter = ['article_date_add', 'article_user','is_publish', 'is_category']
     filter_horizontal = ['is_category']
 

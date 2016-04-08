@@ -10,14 +10,24 @@ from django.contrib import auth
 from django.core.paginator import Paginator, InvalidPage, PageNotAnInteger, EmptyPage
 
 
-def home(request, p_number=1):
+def home(request):
     articles =Article.objects.filter(is_publish=1)
-    current_page = Paginator(articles, 10)
+    paginator = Paginator(articles, 10)
+    try:
+        page_num = request.GET.get('page')
+    except KeyError:
+        page_num = 1
+
+    try:
+        articles = paginator.page(page_num)
+    except InvalidPage:
+        articles = paginator.page(1)
+
     args= {}
     args.update(csrf(request))
-    args['articles'] = current_page.page(p_number)
+    args['articles'] = articles
     args['username'] = auth.get_user(request).username
-    return render_to_response('blog/home.html', args)
+    return render(request, 'blog/home.html', args)
 
 '''
     context = {
@@ -29,22 +39,28 @@ def home(request, p_number=1):
 
 def show_article(request, article_id):
     comment_form = CommentForm
+    #pagination comments
     comments = Comment.objects.filter(comment_article_id=article_id)
-    current_page_comm = Paginator(comments, 5)
-    page = request.GET.get('page')
+    paginator = Paginator(comments, 3)
     try:
-        comments = current_page_comm.page(page)
-    except PageNotAnInteger:
-        comments = current_page_comm.page(1)
-    except EmptyPage:
-        comments  = current_page_comm.page(current_page_comm.num_pages)
+        page_num = request.GET.get('page')
+    except KeyError:
+        page_num = 1
+
+    try:
+        comments = paginator.page(page_num)
+    except InvalidPage:
+        comments = paginator.page(1)
+    #except EmptyPage:
+      #  comments = paginator.page(paginator.num_pages)
+    # end pagination comments
     args ={}
     args.update(csrf(request))
     args['article'] = Article.objects.get(id=article_id)
     args['comments'] = comments
     args['form'] = comment_form
     args['username'] = auth.get_user(request).username
-    return render_to_response('blog/article.html', args)
+    return render(request, 'blog/article.html', args)
 
 def pag_comm(request, comm_num = 1):
     comments = Comment.objects.all()
